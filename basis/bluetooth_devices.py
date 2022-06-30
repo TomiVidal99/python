@@ -3,6 +3,14 @@
 # Check if there is a device connected through bluetooth.
 
 import pydbus
+import subprocess as sp
+
+
+# Check if the user has bt available
+stdoutdata = sp.getoutput("hcitool con")
+if not("XX:XX:XX:XX:XX:XX" in stdoutdata.split()):
+    print("ERROR: no BT available")
+    exit(1)
 
 bus = pydbus.SystemBus()
 
@@ -26,7 +34,7 @@ def list_connected_devices():
 
 if __name__ == '__main__':
     name, addr = list_connected_devices()
-    # print(f'{name} is connected\n')
+    print(f'{name} is connected\n')
     if (name == headset_name):
         print('Auris')
     elif (name != headset_name):
